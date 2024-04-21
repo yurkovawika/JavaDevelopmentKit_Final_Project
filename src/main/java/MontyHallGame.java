@@ -24,18 +24,17 @@ public class MontyHallGame {
         for (int i = 0; i < NUM_TRIALS; i++) {
             boolean initialChoice = makeInitialChoice();
             boolean revealedDoor = revealDoor(initialChoice);
-            boolean finalChoiceWithoutSwitching = initialChoice;
             boolean finalChoiceWithSwitching = switchDoor(initialChoice, revealedDoor);
 
-            GameResult resultWithoutSwitching = playGame(initialChoice, revealedDoor, finalChoiceWithoutSwitching);
+            GameResult resultWithoutSwitching = playGame(initialChoice, revealedDoor, initialChoice);
             GameResult resultWithSwitching = playGame(initialChoice, revealedDoor, finalChoiceWithSwitching);
 
             resultsWithoutSwitching.add(resultWithoutSwitching);
             resultsWithSwitching.add(resultWithSwitching);
         }
 
-        printAndSaveStatistics(resultsWithoutSwitching, "Без смены выбора");
-        printAndSaveStatistics(resultsWithSwitching, "Со сменой выбора");
+        printAndSaveStatistics(resultsWithoutSwitching, "Игрок не изменил решение");
+        printAndSaveStatistics(resultsWithSwitching, "Игрок изменил решение");
     }
 
     private static boolean makeInitialChoice() {
@@ -49,7 +48,7 @@ public class MontyHallGame {
         while (revealedDoor == (initialChoice ? 1 : 0) || revealedDoor == (initialChoice ? 0 : 1)) {
             revealedDoor = random.nextInt(3);
         }
-        return revealedDoor == 1;
+        return false;
     }
 
     private static boolean switchDoor(boolean initialChoice, boolean revealedDoor) {
